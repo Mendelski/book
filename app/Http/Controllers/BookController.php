@@ -23,9 +23,32 @@ class BookController extends Controller
         return BookResource::collection($book);
     }
 
-    public function store(BookRequest $request)
+    public function store(Request $request)
     {
-        return new BookResource(Book::create($request->validated()));
+        $titulo = $request->get('titulo');
+        $parentIndex = $request->get('subindices');
+
+        DB::beginTransaction();
+        try {
+            $book = Book::create([
+                'title' => $titulo,
+                'user_id' => auth()->guard('api')->client()->user_id,
+            ]);
+
+            foreach ($parentIndex as $index) {
+                Index::create([
+                    'book_id' => $book->id,
+                    'title' => $index['titulo'],
+                    'page' => $index['pagina'],
+                ]);
+            }
+
+            DB::commit();
+            return response()->json(['message' => 'Livro criado com sucesso!']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Livro não criado. Veririque os dados.', 'error' => $e->getMessage()]);
+        }
     }
 
 
