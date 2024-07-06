@@ -27,17 +27,33 @@ class DatabaseSeeder extends Seeder
             'title' => 'Book Title',
         ]);
 
-        $firstIndex = Index::create([
+        $alpha = Index::create([
             'book_id' => $book->id,
             'title' => 'Alpha',
             'page' => 1,
         ]);
 
-        Index::create([
+        $beta = Index::create([
             'book_id' => $book->id,
             'title' => 'Beta',
             'page' => 2,
-            'parent_index_id' => $firstIndex->id,
+            'parent_index_id' => $alpha->id,
         ]);
+
+        Index::create([
+            'book_id' => $book->id,
+            'title' => 'Gama',
+            'page' => 3,
+            'parent_index_id' => $beta->id,
+        ]);
+
+        Index::create([
+            'book_id' => $book->id,
+            'title' => 'Delta',
+            'page' => 4,
+            'parent_index_id' => null,
+        ]);
+
+
     }
 }
