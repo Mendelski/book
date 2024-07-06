@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Book;
+use App\Models\Index;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -14,11 +16,28 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        User::createOrFirst([
+            'name' => 'John Doe',
+            'email' => 'john_doe@mail.com',
+            'password' => bcrypt('password'),
+        ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $book = Book::create([
+            'user_id' => 1,
+            'title' => 'Book Title',
+        ]);
+
+        $firstIndex = Index::create([
+            'book_id' => $book->id,
+            'title' => 'Alpha',
+            'page' => 1,
+        ]);
+
+        Index::create([
+            'book_id' => $book->id,
+            'title' => 'Beta',
+            'page' => 2,
+            'parent_index_id' => $firstIndex->id,
         ]);
     }
 }
