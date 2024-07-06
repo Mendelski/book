@@ -14,6 +14,11 @@ return new class extends Migration {
             $table->softDeletes();
             $table->timestamps();
         });
+
+        Schema::table('books', function (Blueprint $table) {
+            $table->index('user_id');
+            $table->index('title');
+        });
     }
 
     public function down(): void
