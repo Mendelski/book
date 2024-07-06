@@ -6,6 +6,7 @@ use App\Http\Requests\BookRequest;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
 use App\Models\Index;
+use App\Services\BookService;
 use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
@@ -17,9 +18,13 @@ class BookController extends Controller
 {
     use AuthorizesRequests;
 
-    public function index()
+    public function index(Request $request)
     {
-        $book = Book::query()->with('index')->get();
+        $bookTitle = $request->get('titulo');
+        $indexTitle = $request->get('titulo_do_indice');
+
+        $book = BookService::getBooks($bookTitle, $indexTitle);
+
         return BookResource::collection($book);
     }
 
