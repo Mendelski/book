@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Book extends Model
@@ -23,8 +23,13 @@ class Book extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function index(): HasOne
+    public function index(): HasMany
     {
-        return $this->HasOne(Index::class);
+        return $this->HasMany(Index::class);
+    }
+
+    public function scopeSearch()
+    {
+        return $this->where('title', 'like', '%'.request('search').'%');
     }
 }

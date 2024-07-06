@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Book;
+use App\Models\Index;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -11,13 +12,16 @@ class BookResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        return [
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'id' => $this->id,
-            'title' => $this->title,
+        $index = $this->load('index')->id;
+        $parent = Index::where('parent_index_id', $index);
 
-            'user_id' => $this->user_id,
+        return [
+            'titulo' => $this->title,
+            'usuario_publicador' => [
+                'id' => $this->user->id,
+                'name' => $this->user->name,
+            ],
+            'indices' => IndexResource::collection($this->index),
         ];
     }
 }

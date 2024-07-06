@@ -12,17 +12,10 @@ class IndexResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
             'id' => $this->id,
-            'title' => $this->title,
-            'page' => $this->page,
-
-            'book_id' => $this->book_id,
-            'parent_index_id' => $this->parent_index_id,
-
-            'book' => new BookResource($this->whenLoaded('book')),
-            'parentIndex' => new BookResource($this->whenLoaded('parentIndex')),
+            'titulo' => $this->title,
+            'pagina' => $this->page,
+            'subindices' => new IndexResource($this->parentIndex),
         ];
     }
 }

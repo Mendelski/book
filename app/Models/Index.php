@@ -28,4 +28,10 @@ class Index extends Model
     {
         return $this->belongsTo(Index::class, 'parent_index_id');
     }
+
+    public function scopeSearch()
+    {
+        return $this->where('title', 'like', '%'.request('search').'%');
+    }
+
 }
