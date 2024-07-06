@@ -14,8 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
         apiPrefix: 'v1',
         then: function () {
-            Route::middleware('auth:api')
-                ->prefix('v2')
+            Route::prefix('v2')
                 ->group(__DIR__.'/../routes/api-v2.php');
         }
     )
