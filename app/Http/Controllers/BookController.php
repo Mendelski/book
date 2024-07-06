@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BookRequest;
-use App\Http\Resources\BookResource;
+use App\Http\Resources\CompleteResource;
+use App\Jobs\ProcessXML;
 use App\Models\Book;
 use App\Models\Index;
 use App\Services\BookService;
@@ -12,7 +13,6 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use SimpleXMLElement;
 
 class BookController extends Controller
 {
@@ -23,9 +23,9 @@ class BookController extends Controller
         $bookTitle = $request->get('titulo');
         $indexTitle = $request->get('titulo_do_indice');
 
-        $book = BookService::getBooks($bookTitle, $indexTitle);
+        $index = BookService::getBooks($bookTitle, $indexTitle);
 
-        return BookResource::collection($book);
+        return CompleteResource::collection($index);
     }
 
     public function store(Request $request)

@@ -2,22 +2,24 @@
 
 namespace App\Services;
 
-use App\Models\Book;
+use App\Models\Index;
 
 class BookService
 {
     public static function getBooks(?string $bookTitle, ?string $indexTitle)
     {
-        $builder = Book::query()->with('index');
+        $builder = Index::query();
 
         if ($bookTitle) {
-            $builder = $builder->where('title', 'like', "%$bookTitle%");
-        }
-        if ($indexTitle) {
-            $builder = $builder->whereHas('index', function ($query) use ($indexTitle) {
-                $query->where('title', 'like', "%$indexTitle%");
+            $builder->whereHas('book', function ($query) use ($bookTitle) {
+                $query->where('title', 'like', "%$bookTitle%");
             });
         }
+
+        if ($indexTitle) {
+            $builder->where('title', 'like', "%$indexTitle%");
+        }
+
 
         return $builder->get();
     }
