@@ -5,7 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BookRequest;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
+use App\Models\Index;
+use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use SimpleXMLElement;
 
 class BookController extends Controller
 {
@@ -13,7 +19,8 @@ class BookController extends Controller
 
     public function index()
     {
-        return BookResource::collection(Book::all());
+        $book = Book::query()->with('index')->get();
+        return BookResource::collection($book);
     }
 
     public function store(BookRequest $request)
@@ -21,27 +28,30 @@ class BookController extends Controller
         return new BookResource(Book::create($request->validated()));
     }
 
-    public function show(Book $book)
+
+    public function xmlImport(Book $book, Request $request): JsonResponse
     {
-        return new BookResource($book);
-    }
+        $xmlData = $request->getContent();
+        DB::beginTransaction();
+        try {
+            $xml = new SimpleXMLElement($xmlData);
 
-    public function update(BookRequest $request, Book $book)
-    {
-        $book->update($request->validated());
+            foreach ($xml->item as $item) {
+                $title = (string) $item['titulo'];
+                $page = (int) $item['pagina'];
 
-        return new BookResource($book);
-    }
+                Index::create([
+                    'book_id' => $book->id,
+                    'title' => $title,
+                    'page' => $page,
+                ]);
+            }
 
-    public function destroy(Book $book)
-    {
-        $book->delete();
-
-        return response()->json();
-    }
-
-    public function xmlImport(Book $book)
-    {
-        // code to import xml
+            DB::commit();
+            return response()->json(['message' => 'Dados importados com sucesso!']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message'=> 'XML não processado, verifique o formato e tente novamente.', 'error' => $e->getMessage()]);
+        }
     }
 }
