@@ -14,7 +14,6 @@ class CompleteResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $a=0;
         $indexId = $this->resource->id;
 
         return [
