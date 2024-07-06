@@ -1,0 +1,371 @@
+{
+	"info": {
+		"_postman_id": "12380ff2-18ec-4796-80ab-04eb58de87ea",
+		"name": "book",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7499981"
+	},
+	"item": [
+		{
+			"name": "v1",
+			"item": [
+				{
+					"name": "V1 Login API",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"grant_type\": \"client_credentials\",\r\n  \"client_id\": \"9c75e4da-fb30-47e9-be07-c6fb03ae9232\",\r\n  \"client_secret\": \"Yqld13trkTs4CICrSawjRoYMW4miZlTgyZTSkIQJ\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/oauth/token",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "V1 Health",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/v1/health",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"v1",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "V1 Auth Health",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/v1/auth/health",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"v1",
+								"auth",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list books",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/v1/livros",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"v1",
+								"livros"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add books",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"titulo\": \"exemplo\",\r\n  \"pagina\": 2,\r\n  \"subindices\": [\r\n    {\r\n      \"titulo\": \"índice 1.1\",\r\n      \"pagina\": 3,\r\n      \"subindices\": []\r\n    },\r\n    {\r\n      \"titulo\": \"índice 2\",\r\n      \"pagina\": 4,\r\n      \"subindices\": []\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/v1/livros",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"v1",
+								"livros"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Import XML",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<indice>\r\n  <item pagina=\"1\" titulo=\"Seção 1\">\r\n    <item pagina=\"1\" titulo=\"Seção 1.1\">\r\n      <item pagina=\"1\" titulo=\"Seção 1.1.1\"/>\r\n    </item>\r\n    <item pagina=\"2\" titulo=\"Seção 1.2\"/>\r\n  </item>\r\n  <item pagina=\"3\" titulo=\"Seção 3\"/>\r\n</indice>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/v1/livros/{{book_id}}/importar-indices-xml",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"v1",
+								"livros",
+								"{{book_id}}",
+								"importar-indices-xml"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "v2",
+			"item": [
+				{
+					"name": "V2 Auth Health Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/v2/auth/health",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"v2",
+								"auth",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "V2 Health",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5Yzc1YTU3Ni0wMjU1LTQzNjQtYTM3ZC03YzViZjllZmU1OTciLCJqdGkiOiJiZjg0NTMxNGQ0NWIwMjY4ZjQyMzVlMzliNTY0OTVjODkyZWU2MTUzZjlmMDhjYTY4MDI0NTcyM2IwOWUwN2VhZDVmODdmMTIzYTZkMWZlMSIsImlhdCI6MTcyMDI5MTYxNy42MTY4OCwibmJmIjoxNzIwMjkxNjE3LjYxNjg4MSwiZXhwIjoxNzUxODI3NjE3LjYxMjA5MSwic3ViIjoiIiwic2NvcGVzIjpbXX0.q-gBW5UZ0AbJz1gl15E9WaVgXT69TKLM4v7ZILf2MsfFkBEH2APXMnqIk6wP7w2MjIC2dUc7Kx5m44ICGQTyV0Q8Ylo1Xk9n9dSVeL-OX4m_oBztnLCb-BcMH31RvIMB6n54QHT4VTXM2k2EGhvD436uf3yz3Gm3TxmX3e-fw0WaUShOB-XyYLipjSuOjkn44KwPXnnIg-9vYDp8E6bP_nS4g07ClDO1JiVdd4vk0qWBm14cP4fcAvlrp5cGR8EPBaMOLe6MIwXV-qjE_2N-5zvCwyDQn7FUCkSIyB0euXaNpqLZrQfX9IbBZRBa2XMnpr4xROzP2eB7M85PA5-aQDvqXcQfnAQGsevdBfGum9np-ILA_uLqCwvJoPA9yCVvsfTLnhSxfVyEBU__NnJc4jzJYUAQUlQjB8NgJvbTysFgr-29jxW0j9zU19aPlnWkGZ6zHU8p8vlsraE-G1xfaiZbGN3yBYrmg7ql9zidimb0KgfOzGiQwQXsQm5CSAKmp-3YAfQsIpjOnAY0B3Atyxl_pzrCTaKv8Fr-ZLmR3C2bm6IWBgc-fI-nDnZyD8FCTpwxaCHZoOTBsHk6Ky-4x3q9OQDL-wLL-1zz0lRf5qTN8mMiP7fxRAs4BKI9ccpVOZHSH2aRtqcQ23sTubL3Pe8n5rkIAiM8UXOiHDjKrBA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/v2/health",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"v2",
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5Yzc1YTU3Ni0wMjU1LTQzNjQtYTM3ZC03YzViZjllZmU1OTciLCJqdGkiOiJiZjg0NTMxNGQ0NWIwMjY4ZjQyMzVlMzliNTY0OTVjODkyZWU2MTUzZjlmMDhjYTY4MDI0NTcyM2IwOWUwN2VhZDVmODdmMTIzYTZkMWZlMSIsImlhdCI6MTcyMDI5MTYxNy42MTY4OCwibmJmIjoxNzIwMjkxNjE3LjYxNjg4MSwiZXhwIjoxNzUxODI3NjE3LjYxMjA5MSwic3ViIjoiIiwic2NvcGVzIjpbXX0.q-gBW5UZ0AbJz1gl15E9WaVgXT69TKLM4v7ZILf2MsfFkBEH2APXMnqIk6wP7w2MjIC2dUc7Kx5m44ICGQTyV0Q8Ylo1Xk9n9dSVeL-OX4m_oBztnLCb-BcMH31RvIMB6n54QHT4VTXM2k2EGhvD436uf3yz3Gm3TxmX3e-fw0WaUShOB-XyYLipjSuOjkn44KwPXnnIg-9vYDp8E6bP_nS4g07ClDO1JiVdd4vk0qWBm14cP4fcAvlrp5cGR8EPBaMOLe6MIwXV-qjE_2N-5zvCwyDQn7FUCkSIyB0euXaNpqLZrQfX9IbBZRBa2XMnpr4xROzP2eB7M85PA5-aQDvqXcQfnAQGsevdBfGum9np-ILA_uLqCwvJoPA9yCVvsfTLnhSxfVyEBU__NnJc4jzJYUAQUlQjB8NgJvbTysFgr-29jxW0j9zU19aPlnWkGZ6zHU8p8vlsraE-G1xfaiZbGN3yBYrmg7ql9zidimb0KgfOzGiQwQXsQm5CSAKmp-3YAfQsIpjOnAY0B3Atyxl_pzrCTaKv8Fr-ZLmR3C2bm6IWBgc-fI-nDnZyD8FCTpwxaCHZoOTBsHk6Ky-4x3q9OQDL-wLL-1zz0lRf5qTN8mMiP7fxRAs4BKI9ccpVOZHSH2aRtqcQ23sTubL3Pe8n5rkIAiM8UXOiHDjKrBA",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5Yzc1ZTRkYS1mYjMwLTQ3ZTktYmUwNy1jNmZiMDNhZTkyMzIiLCJqdGkiOiJiZmJkMmE4MmIzNjg0M2VkZmY2MjM3NjljYTViMDNlZmE3YzNiMDdjZDlhZDIzNWRhMTQ0NWVmMzdkY2U2ZTI0ZjRhZWMyMGFmMDE1NGIwMSIsImlhdCI6MTcyMDMwMTkwMS4zMDQ3NTYsIm5iZiI6MTcyMDMwMTkwMS4zMDQ3NTcsImV4cCI6MTc1MTgzNzkwMS4zMDAzNzEsInN1YiI6IiIsInNjb3BlcyI6W119.DHEeCiBggaqW6XXjaAF8iIdb5dckqv9NxxeQL1we4HwnIZuciTJDvrq6EHcuQ3iGWtO28fL1H-U3Q3FnXpXCjdTQV96Sbeg0r3F51T0EnKQIxt-DTTwNshc7TwWU4PHdjekUmllYOQKqHiwWsx8qost5tz9ZxReAmjGT4PIfZAofnOyWmS4nZIN6rBiewxQW7lnOdS719un43lEjUaHfQXNSAEeQvMxiKjEBkNAksqle7YesMnCccY1NFLt-1Vbc4AB5tnpnmMqtoJLiqtjDcZ-JDCws-Ru9Flz9Ou9gb4eh7jMQKxB-2PbB1JO_vV9ys-ixgdxoM-Ew07uWZTx7_cYLcQPgY14VrLmU-4kUTUmmTX0N9lXZWwaWvPwMznIoiR9lMOQsQQcfLrJSCy3465l9ng0NAvXFpWkxvc69S_1GFGyXUFnZe93ARML54-fZu9myJ7mOXZJD4byoDRhYTtAXKHlWuFTxU7-x1zYI0FaX5GnpCpa17SlxfQ11I4LSFWGHBb8zVkTdNIH-FxuXXuGP9JzEaPxZXlu6JibzOm06BkPU-zgmYn6lh14b80uANSd3F5jpYBQPLzyGBViIq1gnO38t5gBP03EwKcFUR9rzMelhMjLWbNB38w0pY8ZamCSpihBtviE3iYRzwBMI71Wkh9h_NiqX571wfCHkvEU"
+		}
+	]
+}
