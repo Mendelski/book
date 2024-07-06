@@ -60,26 +60,10 @@ class BookController extends Controller
     public function xmlImport(Book $book, Request $request): JsonResponse
     {
         $xmlData = $request->getContent();
-        DB::beginTransaction();
-        try {
-            $xml = new SimpleXMLElement($xmlData);
 
-            foreach ($xml->item as $item) {
-                $title = (string) $item['titulo'];
-                $page = (int) $item['pagina'];
+        ProcessXML::dispatch($xmlData, $book);
 
-                Index::create([
-                    'book_id' => $book->id,
-                    'title' => $title,
-                    'page' => $page,
-                ]);
-            }
+        return response()->json(['message' => 'Enviado para a fila!']);
 
-            DB::commit();
-            return response()->json(['message' => 'Dados importados com sucesso!']);
-        } catch (Exception $e) {
-            DB::rollBack();
-            return response()->json(['message'=> 'XML não processado, verifique o formato e tente novamente.', 'error' => $e->getMessage()]);
-        }
     }
 }
